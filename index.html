@@ -1,19 +1,29 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#059669">
     <title>E-Pilah RT 005</title>
+    <!-- External libs first -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS last (overrides) -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Reset Tailwind conflicts for phone-frame layout */
+        .phone-frame, .phone-frame * { box-sizing: border-box; }
+        .phone-frame input, .phone-frame select, .phone-frame button, .phone-frame textarea {
+            user-select: auto; -webkit-user-select: auto;
+        }
+    </style>
 </head>
 <body>
 
+<!-- PHONE FRAME -->
 <div class="phone-frame" id="phone-frame">
 
     <!-- Status Bar -->
@@ -27,7 +37,7 @@
     </div>
 
     <!-- App Header -->
-    <header class="app-header">
+    <div class="app-header">
         <div class="logo"><i class="fa-solid fa-recycle"></i></div>
         <div class="title-block">
             <div class="title">E-Pilah RT 005</div>
@@ -38,12 +48,12 @@
                 <span class="conn-dot dead"></span> Offline
             </span>
         </div>
-    </header>
+    </div>
 
     <!-- App Body (scrollable) -->
     <div class="app-body" id="app-body">
 
-        <!-- ═══════════ TAB: DASHBOARD ═══════════ -->
+        <!-- ═══════ TAB: DASHBOARD ═══════ -->
         <section id="tab-dashboard" class="tab-content active">
 
             <!-- CSV Sync Bar -->
@@ -54,13 +64,9 @@
                     <div class="csv-status" id="csv-status-text">Menghubungkan...</div>
                 </div>
                 <div class="csv-actions">
-                    <label for="csv-upload" class="btn btn-sm btn-secondary" style="padding:7px 10px;font-size:10px;">
-                        <i class="fa-solid fa-upload"></i>
-                    </label>
-                    <input type="file" id="csv-upload" accept=".csv" onchange="handleManualCSVUpload(event)" class="hidden">
-                    <button onclick="loadCSVData()" class="btn btn-sm btn-secondary" style="padding:7px 10px;font-size:10px;">
-                        <i class="fa-solid fa-rotate"></i>
-                    </button>
+                    <label for="csv-upload" class="csv-btn"><i class="fa-solid fa-upload"></i></label>
+                    <input type="file" id="csv-upload" accept=".csv" onchange="handleManualCSVUpload(event)" hidden>
+                    <button onclick="loadCSVData()" class="csv-btn"><i class="fa-solid fa-rotate"></i></button>
                 </div>
             </div>
 
@@ -75,7 +81,7 @@
                 </div>
             </div>
 
-            <!-- Stat Cards (2x2 Grid) -->
+            <!-- Stat Cards -->
             <div class="stat-grid">
                 <div class="stat-card">
                     <div class="stat-icon" style="background:#ecfdf5;color:#059669;"><i class="fa-solid fa-scale-balanced"></i></div>
@@ -107,22 +113,22 @@
             <div class="card">
                 <div class="section-title"><i class="fa-solid fa-calendar-alt"></i> Jadwal Angkut & Aksi RT</div>
                 <div class="schedule-row">
-                    <div class="schedule-day" style="background:#ccfbf1;color:#0f766e;">SEN<span style="font-size:9px;font-weight:500;">PAGI</span></div>
+                    <div class="schedule-day" style="background:#ccfbf1;color:#0f766e;">SEN<span class="sched-time">PAGI</span></div>
                     <div class="schedule-info"><h4>Sampah Organik (Basah)</h4><p>Siapkan di ember hijau tertutup depan pagar.</p></div>
                     <div id="lamp-day-1" class="lamp-inactive"></div>
                 </div>
                 <div class="schedule-row">
-                    <div class="schedule-day" style="background:#fef3c7;color:#b45309;">RAB<span style="font-size:9px;font-weight:500;">PAGI</span></div>
+                    <div class="schedule-day" style="background:#fef3c7;color:#b45309;">RAB<span class="sched-time">PAGI</span></div>
                     <div class="schedule-info"><h4>Sampah Anorganik (Kering)</h4><p>Plastik, kardus, kertas bersih dalam karung.</p></div>
                     <div id="lamp-day-3" class="lamp-inactive"></div>
                 </div>
                 <div class="schedule-row">
-                    <div class="schedule-day" style="background:#ffe4e6;color:#be123c;">JUM<span style="font-size:9px;font-weight:500;">PAGI</span></div>
+                    <div class="schedule-day" style="background:#ffe4e6;color:#be123c;">JUM<span class="sched-time">PAGI</span></div>
                     <div class="schedule-info"><h4>Residu & B3</h4><p>Popok, masker, baterai wajib terbungkus rapat.</p></div>
                     <div id="lamp-day-5" class="lamp-inactive"></div>
                 </div>
-                <div class="schedule-row" style="border-bottom:none;padding-top:12px;margin-top:4px;border-top:1px dashed #e2e8f0;">
-                    <div class="schedule-day" style="background:#ecfdf5;color:#065f46;">MIN<span style="font-size:8px;font-weight:700;">07:00</span></div>
+                <div class="schedule-row schedule-special">
+                    <div class="schedule-day" style="background:#ecfdf5;color:#065f46;">MIN<span class="sched-time sched-time-bold">07:00</span></div>
                     <div class="schedule-info">
                         <span class="kerja-bakti-tag">Kerja Bakti</span>
                         <h4>Kumpul Akbar Daur Ulang</h4>
@@ -134,25 +140,25 @@
 
             <!-- Activity Feed -->
             <div class="card">
-                <div class="section-title" style="margin-bottom:0;">
-                    <i class="fa-solid fa-wifi"></i> Aktivitas Warga
+                <div class="section-title" style="margin-bottom:6px;"><i class="fa-solid fa-bolt"></i> Aktivitas Warga</div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                    <span id="simulation-badge" class="sim-badge offline">OFFLINE</span>
+                    <span id="simulation-status" class="sim-status">Menghubungkan...</span>
                 </div>
-                <span id="simulation-badge" class="badge badge-guest" style="margin-bottom:8px;display:inline-block;">OFFLINE</span>
-                <span id="simulation-status" style="font-size:10px;color:#94a3b8;">Menghubungkan...</span>
-                <div id="feed-container" style="margin-top:8px;">
-                    <div style="text-align:center;padding:24px;color:#94a3b8;font-size:12px;">
-                        <i class="fa-solid fa-spinner" style="animation:spin 1s linear infinite;display:block;font-size:20px;margin-bottom:8px;color:#059669;"></i>
+                <div id="feed-container">
+                    <div class="feed-empty">
+                        <i class="fa-solid fa-spinner feed-spinner"></i>
                         Memuat aktivitas...
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ═══════════ TAB: PANDUAN ═══════════ -->
+        <!-- ═══════ TAB: PANDUAN ═══════ -->
         <section id="tab-panduan" class="tab-content">
             <div class="card">
-                <h3 style="font-size:15px;font-weight:800;margin:0 0 4px 0;">Cari Cara Pilah Sampah</h3>
-                <p style="font-size:11px;color:#64748b;margin:0 0 12px 0;">Ketik nama benda untuk tahu kategori dan instruksinya.</p>
+                <h3 class="tab-heading">Cari Cara Pilah Sampah</h3>
+                <p class="tab-sub">Ketik nama benda untuk tahu kategori dan instruksinya.</p>
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" id="guide-search" oninput="searchWasteGuide()" placeholder="cth: botol aqua, kulit mangga, baterai...">
@@ -169,7 +175,6 @@
                 <ul class="gc-list"><li>Sisa makanan / sayur</li><li>Kulit buah</li><li>Daun kering</li><li>Ampas kopi / teh</li></ul>
                 <div class="gc-footer" style="color:#059669;"><span>Wadah: Tong Hijau</span><i class="fa-solid fa-arrow-right"></i></div>
             </div>
-
             <div class="guide-card anorganik">
                 <div class="gc-header">
                     <div class="gc-icon" style="background:#eff6ff;color:#2563eb;"><i class="fa-solid fa-bottle-water"></i></div>
@@ -179,7 +184,6 @@
                 <ul class="gc-list"><li>Botol plastik bekas</li><li>Kardus & kertas HVS</li><li>Kaleng minuman</li><li>Beling wadah kaca</li></ul>
                 <div class="gc-footer" style="color:#2563eb;"><span>Wadah: Karung Bersih</span><i class="fa-solid fa-arrow-right"></i></div>
             </div>
-
             <div class="guide-card b3">
                 <div class="gc-header">
                     <div class="gc-icon" style="background:#ffe4e6;color:#e11d48;"><i class="fa-solid fa-triangle-exclamation"></i></div>
@@ -189,7 +193,6 @@
                 <ul class="gc-list"><li>Baterai bekas</li><li>Bohlam lampu</li><li>Semprotan serangga</li><li>Obat kadaluwarsa</li></ul>
                 <div class="gc-footer" style="color:#e11d48;"><span>Wadah: Kotak Merah</span><i class="fa-solid fa-arrow-right"></i></div>
             </div>
-
             <div class="guide-card residu">
                 <div class="gc-header">
                     <div class="gc-icon" style="background:#f1f5f9;color:#64748b;"><i class="fa-solid fa-trash-can"></i></div>
@@ -201,34 +204,34 @@
             </div>
         </section>
 
-        <!-- ═══════════ TAB: SETOR SAMPAH ═══════════ -->
+        <!-- ═══════ TAB: SETOR SAMPAH ═══════ -->
         <section id="tab-setor" class="tab-content">
             <div id="setor-lockdown-banner" class="lockdown-banner">
                 <i class="fa-solid fa-lock"></i>
-                <div style="flex:1;min-width:0;">
+                <div class="lockdown-text">
                     <h4>Form Setor Dikunci (Mode Tamu)</h4>
                     <p>Verifikasi data rumah Anda di portal untuk membuka pengiriman poin.</p>
-                    <button onclick="switchTab('portal')" class="btn btn-sm" style="background:#f59e0b;color:#fff;margin-top:4px;">Verifikasi Sekarang</button>
+                    <button onclick="switchTab('portal')" class="lockdown-btn">Verifikasi Sekarang</button>
                 </div>
             </div>
 
             <form id="form-setor" class="card">
-                <h3 style="font-size:15px;font-weight:800;margin:0 0 2px 0;">Catat Pemilahan Mandiri</h3>
-                <p style="font-size:11px;color:#64748b;margin:0 0 14px 0;">Setor sampah ke server RT 005 demi penambahan poin instan.</p>
+                <h3 class="tab-heading">Catat Pemilahan Mandiri</h3>
+                <p class="tab-sub">Setor sampah ke server RT 005 demi penambahan poin instan.</p>
 
                 <div class="form-group">
                     <label class="form-label">No Rumah / Blok</label>
-                    <select id="setor-alamat" required class="form-select">
+                    <select id="setor-alamat" class="form-select">
                         <option value="" disabled selected>Memuat alamat...</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Nama Penghuni</label>
-                    <input type="text" id="setor-nama" placeholder="cth: Pak Budi / Bu Rina" required class="form-input">
+                    <input type="text" id="setor-nama" placeholder="cth: Pak Budi / Bu Rina" class="form-input">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Jenis Sampah</label>
-                    <select id="setor-jenis" onchange="updateEstimatedPoints()" required class="form-select">
+                    <select id="setor-jenis" onchange="updateEstimatedPoints()" class="form-select">
                         <option value="" disabled selected>Pilih kategori...</option>
                         <option value="plastik">Plastik Bersih [15 Poin/Kg]</option>
                         <option value="kertas">Kertas/Kardus [10 Poin/Kg]</option>
@@ -239,24 +242,20 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Berat / Volume</label>
-                    <input type="number" step="0.1" min="0.1" id="setor-berat" oninput="updateEstimatedPoints()" placeholder="0.0" required class="form-input">
-                    <span id="unit-indicator" style="font-size:10px;color:#94a3b8;">kg / L</span>
+                    <input type="number" step="0.1" min="0.1" id="setor-berat" oninput="updateEstimatedPoints()" placeholder="0.0" class="form-input">
+                    <span id="unit-indicator" class="unit-hint">kg / L</span>
                 </div>
 
                 <div class="estimate-box">
-                    <div><div class="label">Estimasi Green Points</div><div class="value" id="est-points">0 Poin</div></div>
-                    <div style="text-align:right;font-size:10px;color:#64748b;">
-                        <span id="setor-mode-indicator">Mode offline</span>
-                    </div>
+                    <div><div class="est-label">Estimasi Green Points</div><div class="est-value" id="est-points">0 Poin</div></div>
+                    <div class="est-mode"><span id="setor-mode-indicator">Mode offline</span></div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> Kirim Laporan ke Server RT
-                </button>
+                <button type="submit" class="btn-primary btn-block">Kirim Laporan ke Server RT</button>
             </form>
 
             <div class="card">
-                <h4 style="font-size:12px;font-weight:700;margin:0 0 8px 0;"><i class="fa-solid fa-circle-info" style="color:#059669;"></i> Aturan Higienis</h4>
+                <h4 class="card-subtitle"><i class="fa-solid fa-circle-info" style="color:#059669;"></i> Aturan Higienis</h4>
                 <ul class="checklist">
                     <li><i class="fa-regular fa-circle-check"></i> <span><strong>Bilas Bersih:</strong> Bilas sisa susu/sirup agar tidak berbau.</span></li>
                     <li><i class="fa-regular fa-circle-check"></i> <span><strong>Tekan/Pipihkan:</strong> Pipihkan botol untuk hemat ruang.</span></li>
@@ -264,22 +263,18 @@
             </div>
         </section>
 
-        <!-- ═══════════ TAB: LEADERBOARD ═══════════ -->
+        <!-- ═══════ TAB: LEADERBOARD ═══════ -->
         <section id="tab-leaderboard" class="tab-content">
             <div class="card">
-                <h3 style="font-size:15px;font-weight:800;margin:0;">Papan Peringkat</h3>
-                <p style="font-size:11px;color:#64748b;margin:2px 0 12px 0;">Kontribusi terbaik rumah Anda — real-time dari server RT 005.</p>
-                <div style="margin-bottom:12px;">
-                    <select id="leaderboard-filter" onchange="filterLeaderboard()" class="form-select" style="padding:8px 12px;font-size:11px;">
+                <h3 class="tab-heading">Papan Peringkat</h3>
+                <p class="tab-sub">Kontribusi terbaik rumah Anda — real-time dari server RT 005.</p>
+                <div class="lb-filter-row">
+                    <select id="leaderboard-filter" onchange="filterLeaderboard()" class="form-select" style="padding:8px 12px;font-size:12px;">
                         <option value="semua">Semua Blok</option>
                     </select>
                 </div>
-
-                <!-- Podium -->
                 <div class="podium" id="podium-container"></div>
-
-                <!-- Table -->
-                <div style="overflow-x:auto;">
+                <div class="lb-table-wrap">
                     <table class="lb-table">
                         <thead>
                             <tr>
@@ -296,15 +291,14 @@
             </div>
         </section>
 
-        <!-- ═══════════ TAB: PORTAL WARGA ═══════════ -->
+        <!-- ═══════ TAB: PORTAL WARGA ═══════ -->
         <section id="tab-portal" class="tab-content">
-            <!-- Unauthenticated -->
             <div id="portal-unauth-view">
-                <div class="client-dashboard" style="margin-bottom:14px;">
+                <div class="portal-hero">
                     <div class="verified-badge"><i class="fa-solid fa-shield-halved"></i> Portal Warga</div>
-                    <h3 style="font-size:16px;font-weight:800;margin:6px 0;">Verifikasi Client Warga</h3>
-                    <p style="font-size:11px;opacity:0.85;line-height:1.6;">Verifikasi identitas keluarga Anda sebagai Client resmi RT 005.</p>
-                    <ul style="font-size:11px;opacity:0.8;padding-left:16px;line-height:1.8;">
+                    <h3>Verifikasi Client Warga</h3>
+                    <p>Verifikasi identitas keluarga Anda sebagai Client resmi RT 005.</p>
+                    <ul>
                         <li>Kunci pengiriman poin rumah Anda</li>
                         <li>Skor game → poin asli</li>
                         <li>Status Terverifikasi ✓</li>
@@ -320,25 +314,25 @@
                     <form id="form-auth-login" onsubmit="handleAuthLogin(event)">
                         <div class="form-group">
                             <label class="form-label">Email Terdaftar</label>
-                            <input type="email" id="login-email" placeholder="nama@email.com" required class="form-input">
+                            <input type="email" id="login-email" placeholder="nama@email.com" class="form-input">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Password</label>
-                            <input type="password" id="login-pass" placeholder="••••••••" required class="form-input">
+                            <input type="password" id="login-pass" placeholder="••••••••" class="form-input">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-right-to-bracket"></i> Masuk ke Server RT</button>
+                        <button type="submit" class="btn-primary btn-block">Masuk ke Server RT</button>
                     </form>
 
                     <form id="form-auth-register" onsubmit="handleAuthRegister(event)" class="hidden">
                         <div class="form-group">
                             <label class="form-label">Nama Lengkap</label>
-                            <input type="text" id="reg-nama" placeholder="cth: Budi Santoso" required class="form-input">
+                            <input type="text" id="reg-nama" placeholder="cth: Budi Santoso" class="form-input">
                         </div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div class="form-row-2col">
                             <div class="form-group">
                                 <label class="form-label">Blok</label>
-                                <select id="reg-blok" required class="form-select">
-                                    <option value="" disabled selected>Pilih Blok</option>
+                                <select id="reg-blok" class="form-select">
+                                    <option value="" disabled selected>Pilih</option>
                                     <option value="LA1">LA1</option>
                                     <option value="LC1">LC1</option>
                                     <option value="LA8">LA8</option>
@@ -346,153 +340,132 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">No Rumah</label>
-                                <input type="text" id="reg-norumah" placeholder="cth: 05" required class="form-input">
+                                <input type="text" id="reg-norumah" placeholder="cth: 05" class="form-input">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">No WhatsApp / HP</label>
-                            <input type="tel" id="reg-phone" placeholder="0812xxxxxxxx" required class="form-input">
+                            <input type="tel" id="reg-phone" placeholder="0812xxxxxxxx" class="form-input">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Email</label>
-                            <input type="email" id="reg-email" placeholder="contoh@mail.com" required class="form-input">
+                            <input type="email" id="reg-email" placeholder="contoh@mail.com" class="form-input">
                         </div>
                         <div class="form-group">
                             <label class="form-label">Password Baru (min. 6)</label>
-                            <input type="password" id="reg-pass" placeholder="Minimal 6 karakter" required minlength="6" class="form-input">
+                            <input type="password" id="reg-pass" placeholder="Minimal 6 karakter" minlength="6" class="form-input">
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-user-plus"></i> Daftar & Klaim Rumah</button>
+                        <button type="submit" class="btn-primary btn-block">Daftar & Klaim Rumah</button>
                     </form>
                 </div>
             </div>
 
-            <!-- Authenticated View -->
             <div id="portal-auth-view" class="hidden">
-                <div class="client-dashboard">
-                    <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Klien Terverifikasi</div>
-                    <div style="display:flex;align-items:center;gap:12px;margin-top:8px;">
-                        <div style="width:44px;height:44px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;">
-                            <i class="fa-solid fa-circle-check"></i>
-                        </div>
+                <div class="portal-hero">
+                    <div class="verified-badge" style="background:rgba(255,255,255,0.25);"><i class="fa-solid fa-circle-check"></i> Klien Terverifikasi</div>
+                    <div class="client-row">
+                        <div class="client-avatar"><i class="fa-solid fa-circle-check"></i></div>
                         <div>
-                            <div class="client-name" id="client-display-name">Nama Warga</div>
-                            <div class="client-house" id="client-display-house">Blok Rumah</div>
+                            <div class="portal-name" id="client-display-name">Nama Warga</div>
+                            <div class="portal-house" id="client-display-house">Blok Rumah</div>
                         </div>
                     </div>
-                    <div style="display:flex;gap:8px;margin-top:14px;">
-                        <div style="flex:1;background:rgba(255,255,255,0.15);border-radius:12px;padding:12px;">
-                            <div style="font-size:9px;opacity:0.7;text-transform:uppercase;font-weight:700;">Poin Rumah</div>
-                            <div style="font-size:22px;font-weight:800;" id="client-stat-points">0 Pts</div>
+                    <div class="client-stats">
+                        <div class="client-stat-box">
+                            <div class="cs-label">Poin Rumah</div>
+                            <div class="cs-value" id="client-stat-points">0 Pts</div>
                         </div>
-                        <div style="flex:1;background:rgba(255,255,255,0.15);border-radius:12px;padding:12px;">
-                            <div style="font-size:9px;opacity:0.7;text-transform:uppercase;font-weight:700;">Terselamatkan</div>
-                            <div style="font-size:22px;font-weight:800;" id="client-stat-weight">0.0 kg</div>
+                        <div class="client-stat-box">
+                            <div class="cs-label">Terselamatkan</div>
+                            <div class="cs-value" id="client-stat-weight">0.0 kg</div>
                         </div>
                     </div>
-                    <button onclick="handleAuthLogout()" class="btn btn-sm" style="margin-top:14px;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.3);">
-                        <i class="fa-solid fa-power-off"></i> Keluar
-                    </button>
+                    <button onclick="handleAuthLogout()" class="logout-btn">Keluar</button>
                 </div>
                 <div class="card">
-                    <h5 style="font-size:11px;font-weight:700;margin:0 0 8px 0;">Metadata Koneksi:</h5>
-                    <div style="font-size:10px;color:#64748b;line-height:1.8;">
+                    <h5 class="card-subtitle">Metadata Koneksi:</h5>
+                    <div class="meta-grid">
                         <div>Email: <span id="client-meta-email">-</span></div>
                         <div>WhatsApp: <span id="client-meta-phone">-</span></div>
-                        <div style="word-break:break-all;">UID: <span id="client-meta-uid" style="font-family:monospace;background:#f1f5f9;padding:1px 4px;border-radius:4px;">-</span></div>
+                        <div class="meta-full">UID: <span id="client-meta-uid" class="meta-uid">-</span></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ═══════════ TAB: GAME EDUKASI ═══════════ -->
+        <!-- ═══════ TAB: GAME EDUKASI ═══════ -->
         <section id="tab-game" class="tab-content">
-            <div class="client-dashboard" style="margin-bottom:14px;">
-                <div class="verified-badge"><i class="fa-solid fa-gamepad"></i> Mini Game</div>
-                <h3 style="font-size:16px;font-weight:800;margin:6px 0;">Asah Otak: Pilah Cepat!</h3>
-                <p style="font-size:11px;opacity:0.85;line-height:1.6;">Pilah sampah ke 4 wadah yang tepat. Skor bisa diklaim jadi <strong>Poin Asli</strong> rumah Anda!</p>
-                <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+            <div class="portal-hero" style="margin-bottom:14px;">
+                <div class="verified-badge" style="background:rgba(255,255,255,0.2);"><i class="fa-solid fa-gamepad"></i> Mini Game</div>
+                <h3>Asah Otak: Pilah Cepat!</h3>
+                <p>Pilah sampah ke 4 wadah yang tepat. Skor bisa diklaim jadi <strong>Poin Asli</strong> rumah Anda!</p>
+                <div class="game-hero-stats">
                     <span style="color:#fbbf24;"><i class="fa-solid fa-trophy"></i></span>
-                    <span style="font-size:13px;">Skor Tertinggi: <strong id="game-highscore">0</strong></span>
+                    <span>Skor Tertinggi: <strong id="game-highscore">0</strong></span>
                 </div>
-                <button onclick="startGame()" id="btn-start-game" style="margin-top:14px;background:#f59e0b;color:#0f172a;font-weight:800;border:none;padding:12px 20px;border-radius:24px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;">
-                    <i class="fa-solid fa-play"></i> Mulai Bermain!
-                </button>
+                <button onclick="startGame()" id="btn-start-game" class="game-start-btn">Mulai Bermain!</button>
             </div>
 
-            <!-- Game Arena -->
             <div id="game-arena" class="game-arena hidden">
                 <div class="game-hud">
-                    <div class="game-stat">
-                        <div class="label">Skor</div>
-                        <div class="value" id="game-score" style="color:#fbbf24;">0</div>
-                    </div>
-                    <div class="game-stat">
-                        <div class="label">Waktu</div>
-                        <div class="value" id="game-timer" style="color:#fb7185;">30s</div>
-                    </div>
-                    <div id="game-lives" style="display:flex;gap:3px;"></div>
+                    <div class="game-stat"><div class="gs-label">Skor</div><div class="gs-value" id="game-score" style="color:#fbbf24;">0</div></div>
+                    <div class="game-stat"><div class="gs-label">Waktu</div><div class="gs-value" id="game-timer" style="color:#fb7185;">30s</div></div>
+                    <div id="game-lives" class="game-lives"></div>
                 </div>
                 <div class="game-item-box" id="game-item-box">
-                    <span id="game-item-icon" class="emoji">🍌</span>
-                    <div class="name" id="game-item-name">Kulit Pisang</div>
-                    <div style="font-size:11px;color:#94a3b8;margin-top:4px;">Masukkan ke wadah!</div>
+                    <span id="game-item-icon" class="gi-emoji">🍌</span>
+                    <div class="gi-name" id="game-item-name">Kulit Pisang</div>
+                    <div class="gi-hint">Masukkan ke wadah!</div>
                 </div>
                 <div class="game-actions">
-                    <button onclick="submitSortAnswer('organik')" class="game-btn organik"><span class="icon">🌱</span>ORGANIK</button>
-                    <button onclick="submitSortAnswer('anorganik')" class="game-btn anorganik"><span class="icon">🥤</span>ANORGANIK</button>
-                    <button onclick="submitSortAnswer('b3')" class="game-btn b3"><span class="icon">⚠️</span>LIMBAH B3</button>
-                    <button onclick="submitSortAnswer('residu')" class="game-btn residu"><span class="icon">🗑️</span>RESIDU</button>
+                    <button onclick="submitSortAnswer('organik')" class="game-btn organik"><span class="gb-icon">🌱</span>ORGANIK</button>
+                    <button onclick="submitSortAnswer('anorganik')" class="game-btn anorganik"><span class="gb-icon">🥤</span>ANORGANIK</button>
+                    <button onclick="submitSortAnswer('b3')" class="game-btn b3"><span class="gb-icon">⚠️</span>LIMBAH B3</button>
+                    <button onclick="submitSortAnswer('residu')" class="game-btn residu"><span class="gb-icon">🗑️</span>RESIDU</button>
                 </div>
             </div>
 
-            <!-- Game Over -->
             <div id="game-over-panel" class="hidden">
-                <div class="game-arena" style="text-align:center;padding:24px;min-height:auto;">
-                    <div style="width:60px;height:60px;background:rgba(239,68,68,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;color:#ef4444;">
-                        <i class="fa-solid fa-hourglass-end"></i>
+                <div class="game-over-card">
+                    <div class="go-icon"><i class="fa-solid fa-hourglass-end"></i></div>
+                    <h3>Waktu Habis!</h3>
+                    <p>Kerja bagus! Anda telah menyortir sampah harian.</p>
+                    <div class="go-score-box">
+                        <div class="go-score-label">Skor Akhir</div>
+                        <div class="go-score-value" id="game-final-score">0</div>
                     </div>
-                    <h3 style="font-size:18px;font-weight:800;">Waktu Habis!</h3>
-                    <p style="font-size:11px;color:#94a3b8;">Kerja bagus! Anda telah menyortir sampah harian.</p>
-                    <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:12px;margin:12px 0;">
-                        <div style="font-size:10px;color:#94a3b8;">Skor Akhir</div>
-                        <div style="font-size:32px;font-weight:800;color:#fbbf24;" id="game-final-score">0</div>
-                    </div>
-                    <div style="display:flex;gap:8px;justify-content:center;">
-                        <button onclick="startGame()" style="background:#f59e0b;color:#0f172a;font-weight:700;border:none;padding:12px 18px;border-radius:12px;font-size:12px;cursor:pointer;">
-                            <i class="fa-solid fa-rotate-right"></i> Main Lagi
-                        </button>
-                        <button onclick="claimGameBonus()" style="background:#059669;color:#fff;font-weight:700;border:none;padding:12px 18px;border-radius:12px;font-size:12px;cursor:pointer;">
-                            <i class="fa-solid fa-gift"></i> Klaim Bonus
-                        </button>
+                    <div class="go-buttons">
+                        <button onclick="startGame()" class="go-btn-retry">Main Lagi</button>
+                        <button onclick="claimGameBonus()" class="go-btn-claim">Klaim Bonus</button>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- ═══════════ BOTTOM TAB BAR ═══════════ -->
+    <!-- ═══════ BOTTOM TAB BAR ═══════ -->
     <nav class="tab-bar">
-        <button class="tab-item active" onclick="switchTab('dashboard')" id="tab-btn-dashboard">
+        <div class="tab-item active" onclick="switchTab('dashboard')" id="tab-btn-dashboard">
             <i class="fa-solid fa-house"></i>
             <span>Beranda</span>
-        </button>
-        <button class="tab-item" onclick="switchTab('panduan')" id="tab-btn-panduan">
+        </div>
+        <div class="tab-item" onclick="switchTab('panduan')" id="tab-btn-panduan">
             <i class="fa-solid fa-book-open"></i>
             <span>Panduan</span>
-        </button>
-        <button class="tab-item action" onclick="switchTab('setor')" id="tab-btn-setor">
-            <div class="circle"><i class="fa-solid fa-plus"></i></div>
+        </div>
+        <div class="tab-item action" onclick="switchTab('setor')" id="tab-btn-setor">
+            <div class="tab-circle"><i class="fa-solid fa-plus"></i></div>
             <span>Setor</span>
-        </button>
-        <button class="tab-item" onclick="switchTab('leaderboard')" id="tab-btn-leaderboard">
+        </div>
+        <div class="tab-item" onclick="switchTab('leaderboard')" id="tab-btn-leaderboard">
             <i class="fa-solid fa-trophy"></i>
             <span>Peringkat</span>
-        </button>
-        <button class="tab-item" onclick="switchTab('portal')" id="tab-btn-portal">
+        </div>
+        <div class="tab-item" onclick="switchTab('portal')" id="tab-btn-portal">
             <i class="fa-solid fa-user"></i>
             <span>Portal</span>
-            <span class="dot" id="tab-portal-dot"></span>
-        </button>
+            <span class="tab-dot" id="tab-portal-dot"></span>
+        </div>
     </nav>
 
     <!-- Toast -->
@@ -504,23 +477,14 @@
     <!-- Alert Modal -->
     <div class="alert-overlay hidden" id="custom-alert-modal">
         <div class="alert-dialog">
-            <div class="alert-icon" style="background:#ecfdf5;color:#059669;" id="alert-icon">
-                <i class="fa-solid fa-info-circle"></i>
-            </div>
+            <div class="alert-icon" id="alert-icon"><i class="fa-solid fa-info-circle"></i></div>
             <h4 class="alert-title" id="alert-title">Pemberitahuan</h4>
             <p class="alert-body" id="alert-body">Pesan pemberitahuan.</p>
-            <button onclick="closeAlertModal()" class="btn btn-primary btn-block">Mengerti</button>
+            <button onclick="closeAlertModal()" class="alert-ok-btn">Mengerti</button>
         </div>
     </div>
 
 </div><!-- /phone-frame -->
-
-<!-- Cloud (optional, put before main.js) -->
-<script>
-// Firebase config override (ganti dengan credentials production)
-// window.__firebase_config = '{...}';
-// window.__app_id = 'epilah-rt005-production';
-</script>
 
 <script type="module" src="js/main.js"></script>
 </body>
